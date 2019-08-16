@@ -386,7 +386,29 @@ test("handle umd with esm", async () => {
       gzipped: 139,
       treeshaked: {
         rollup: { code: 162 },
-        webpack: { code: 1263 }
+        webpack: { code: 1272 }
+      }
+    }
+  });
+});
+
+test("unify output file names", async () => {
+  const snapshotPath = "fixtures/umd.size-snapshot.json";
+  await runRollup({
+    input: "./fixtures/umd.js",
+    plugins: [sizeSnapshot({ snapshotPath })],
+    output: { file: "fixtures\\folder\\output.js", format: "esm" }
+  });
+  const snapshot = pullSnapshot(snapshotPath);
+
+  expect(snapshot).toMatchObject({
+    "../fixtures/folder/output.js": {
+      bundled: 330,
+      minified: 206,
+      gzipped: 139,
+      treeshaked: {
+        rollup: { code: 162 },
+        webpack: { code: 1272 }
       }
     }
   });

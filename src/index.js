@@ -5,6 +5,7 @@ import { minify } from "terser";
 import gzipSize from "gzip-size";
 import bytes from "bytes";
 import chalk from "chalk";
+import slash from "slash";
 import { treeshakeWithRollup } from "./treeshakeWithRollup.js";
 import { treeshakeWithWebpack } from "./treeshakeWithWebpack.js";
 import * as snapshot from "./snapshot.js";
@@ -79,7 +80,7 @@ export const sizeSnapshot = (options?: Options = {}): Plugin => {
       if (typeof output !== "string") {
         throw Error("output file in rollup options should be specified");
       }
-      const outputName = relative(dirname(snapshotPath), output);
+      const outputName = slash(relative(dirname(snapshotPath), output));
 
       const minified = minify(source).code;
       const treeshakeSize = code =>
